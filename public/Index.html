@@ -41,7 +41,7 @@
           method: "POST",
           body: formData
         });
-
+        
         const data = await res.json();
         respuestaDiv.innerText = data.respuesta || "No se recibió respuesta del servidor.";
       } catch (error) {

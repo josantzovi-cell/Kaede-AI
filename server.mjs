@@ -14,7 +14,7 @@ const upload = multer({ dest: "uploads/" });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "public")));
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
