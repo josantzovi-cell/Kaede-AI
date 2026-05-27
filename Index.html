@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>KAEDE - Cálculo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>AI Calculo</h1>
+    <p>Hola, bienvenido a Kaede AI, tu asistente de cálculo.</p>
+    <p>Hola, soy KAEDE, ¿en qué puedo ayudarte hoy?</p>
+
+    <textarea id="problema" placeholder="Escribe tu problema de cálculo aquí..."></textarea>
+    
+    <!-- Bloque de acciones con cámara y resolver juntos -->
+    <div class="acciones">
+      <label for="imagen" class="btn-camara"></label>
+      <input type="file" id="imagen" accept="image/*" capture="environment" style="display:none">
+      <button onclick="resolver()">Resolver</button>
+    </div>
+
+    <div id="solucion" class="resultado"></div>
+  </div>
+
+  <script>
+    async function resolver() {
+      const problema = document.getElementById("problema").value;
+      const imagenInput = document.getElementById("imagen");
+      const respuestaDiv = document.getElementById("solucion");
+
+      const formData = new FormData();
+      formData.append("problema", problema);
+      if (imagenInput.files.length > 0) {
+        formData.append("imagen", imagenInput.files[0]);
+      }
+
+      try {
+        const res = await fetch("/resolver", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await res.json();
+        respuestaDiv.innerText = data.respuesta || "No se recibió respuesta del servidor.";
+      } catch (error) {
+        respuestaDiv.innerText = "Error al conectar con el servidor.";
+      }
+    }
+  </script>
+</body>
+</html>
